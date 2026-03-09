@@ -1,0 +1,180 @@
+version: "3.9"
+
+services:
+  # ---------------------------------------------------------------------------
+  # Shared PostgreSQL database
+  # ---------------------------------------------------------------------------
+  db:
+    image: postgres:16-alpine
+    container_name: somaai-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_MULTIPLE_DATABASES: resource_library_db,assessment_db,analytics_db,training_module_db,engagement_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/create-multiple-postgresql-databases.sh:/docker-entrypoint-initdb.d/create-multiple-postgresql-databases.sh
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ---------------------------------------------------------------------------
+  # Redis (optional – caching layer)
+  # ---------------------------------------------------------------------------
+  redis:
+    image: redis:7-alpine
+    container_name: somaai-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ---------------------------------------------------------------------------
+  # API Gateway (port 8000)
+  # ---------------------------------------------------------------------------
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    container_name: somaai-api-gateway
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      RESOURCE_LIBRARY_SERVICE_URL: http://resource-library-service:8001
+      ASSESSMENT_SERVICE_URL: http://assessment-service:8002
+      ANALYTICS_SERVICE_URL: http://analytics-service:8003
+      TRAINING_MODULE_SERVICE_URL: http://training-module-service:8004
+      ENGAGEMENT_SERVICE_URL: http://engagement-service:8005
+    depends_on:
+      - resource-library-service
+      - assessment-service
+      - analytics-service
+      - training-module-service
+      - engagement-service
+
+  # ---------------------------------------------------------------------------
+  # Resource Library Service (port 8001)
+  # ---------------------------------------------------------------------------
+  resource-library-service:
+    build:
+      context: ./services/resource-library-service
+      dockerfile: Dockerfile
+    container_name: somaai-resource-library
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+    environment:
+      DATABASE_URL: postgresql+asyncpg://postgres:password@db:5432/resource_library_db
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8001/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ---------------------------------------------------------------------------
+  # Assessment Service (port 8002)
+  # ---------------------------------------------------------------------------
+  assessment-service:
+    build:
+      context: ./services/assessment-service
+      dockerfile: Dockerfile
+    container_name: somaai-assessment
+    restart: unless-stopped
+    ports:
+      - "8002:8002"
+    environment:
+      DATABASE_URL: postgresql+asyncpg://postgres:password@db:5432/assessment_db
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8002/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ---------------------------------------------------------------------------
+  # Analytics Service (port 8003)
+  # ---------------------------------------------------------------------------
+  analytics-service:
+    build:
+      context: ./services/analytics-service
+      dockerfile: Dockerfile
+    container_name: somaai-analytics
+    restart: unless-stopped
+    ports:
+      - "8003:8003"
+    environment:
+      DATABASE_URL: postgresql+asyncpg://postgres:password@db:5432/analytics_db
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8003/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ---------------------------------------------------------------------------
+  # Training Module Service (port 8004)
+  # ---------------------------------------------------------------------------
+  training-module-service:
+    build:
+      context: ./services/training-module-service
+      dockerfile: Dockerfile
+    container_name: somaai-training-module
+    restart: unless-stopped
+    ports:
+      - "8004:8004"
+    environment:
+      DATABASE_URL: jdbc:postgresql://db:5432/training_module_db
+      DB_USERNAME: postgres
+      DB_PASSWORD: password
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8004/actuator/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # ---------------------------------------------------------------------------
+  # Engagement Service (port 8005)
+  # ---------------------------------------------------------------------------
+  engagement-service:
+    build:
+      context: ./services/engagement-service
+      dockerfile: Dockerfile
+    container_name: somaai-engagement
+    restart: unless-stopped
+    ports:
+      - "8005:8005"
+    environment:
+      DATABASE_URL: jdbc:postgresql://db:5432/engagement_db
+      DB_USERNAME: postgres
+      DB_PASSWORD: password
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8005/actuator/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+volumes:
+  postgres_data:
