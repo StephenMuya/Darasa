@@ -1,0 +1,96 @@
+/* ============================================================
+   darasa Hero – Animation Keyframes & Utility Classes
+   Imported once by SomaHero.tsx.
+   Respects prefers-reduced-motion for accessibility.
+   ============================================================ */
+
+/* ── Floating app-window card ── */
+@keyframes somaFloatCard {
+  0%, 100% { transform: rotate(-1deg) translateY(0px); }
+  50%       { transform: rotate(-1deg) translateY(-6px); }
+}
+
+/* ── Luminous 3-D iridescent orb pulse ── */
+@keyframes somaOrbPulse {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50%       { transform: translateY(-4px) scale(1.03); }
+}
+
+/* ── Ambient bottom-left gradient orb drift ── */
+@keyframes somaAmbientGlowDrift {
+  0%, 100% {
+    transform: translate3d(0px, 0px, 0) scale(1);
+    opacity: 0.85;
+  }
+  33% {
+    transform: translate3d(28px, -22px, 0) scale(1.08);
+    opacity: 0.92;
+  }
+  66% {
+    transform: translate3d(-12px, -14px, 0) scale(1.04);
+    opacity: 0.80;
+  }
+}
+
+/* ── Ambient right-side warm amber glow drift ── */
+@keyframes somaAmberGlowDrift {
+  0%, 100% {
+    transform: translate3d(0px, 0px, 0) scale(1);
+    opacity: 0.50;
+  }
+  50% {
+    transform: translate3d(-18px, 16px, 0) scale(1.05);
+    opacity: 0.60;
+  }
+}
+
+/* ── Utility classes ── */
+.app-window-floating {
+  animation: somaFloatCard 6s ease-in-out infinite;
+  transform-origin: center center;
+}
+
+.luminous-3d-orb {
+  animation: somaOrbPulse 4s ease-in-out infinite;
+  background: radial-gradient(
+    circle at 35% 28%,
+    #FFFFFF 0%,
+    #F0F4FF 20%,
+    #DBEAFE 40%,
+    #C7D2FE 65%,
+    #A7F3D0 85%,
+    #818CF8 100%
+  );
+  box-shadow:
+    inset -6px -6px 14px rgba(99, 102, 241, 0.3),
+    inset  5px  5px 10px rgba(255, 255, 255, 0.95),
+    0 14px 28px -6px rgba(99, 102, 241, 0.3),
+    0  6px 12px -3px rgba(31, 122, 77, 0.15);
+}
+
+.ambient-bottom-left-orb {
+  animation: somaAmbientGlowDrift 11s ease-in-out infinite;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
+.ambient-right-amber-glow {
+  animation: somaAmberGlowDrift 9s ease-in-out infinite;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
+/* ── Reduced-motion overrides ── */
+@media (prefers-reduced-motion: reduce) {
+  .app-window-floating {
+    animation: none !important;
+    transform: rotate(-1deg) !important;
+  }
+  .luminous-3d-orb {
+    animation: none !important;
+  }
+  .ambient-bottom-left-orb,
+  .ambient-right-amber-glow {
+    animation: none !important;
+  }
+}
