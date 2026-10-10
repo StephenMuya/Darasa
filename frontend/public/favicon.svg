@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- Left circular ring bowl of the 'd' letterform -->
+  <circle cx="45" cy="55" r="18.5" stroke="#0F172A" stroke-width="9"/>
+  <!-- Right vertical amber/orange pill stem -->
+  <rect x="64" y="22" width="9" height="56" rx="4.5" fill="#EE9B2E"/>
+</svg>
