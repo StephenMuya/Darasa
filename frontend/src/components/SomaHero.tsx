@@ -29,7 +29,7 @@ export default function SomaHero() {
 
   return (
     <div
-      className="relative min-h-screen w-full overflow-hidden flex flex-col justify-between bg-gradient-to-br from-[#F5FAF7] via-[#EAF3EE] to-[#DCEDE2] text-slate-900 transition-colors duration-300"
+      className="relative h-screen max-h-screen w-full overflow-hidden flex flex-col justify-between bg-gradient-to-br from-[#F5FAF7] via-[#EAF3EE] to-[#DCEDE2] text-slate-900 transition-colors duration-300"
       style={{
         ['--soma-accent'       as any]: '#1F7A4D',
         ['--soma-accent-hover' as any]: '#18633E',
@@ -47,8 +47,8 @@ export default function SomaHero() {
       <HeroBackground />
 
       {/* 3. Main content: headline ↔ chat panel side by side */}
-      <main className="relative z-10 flex-1 flex flex-col justify-center w-full px-4 sm:px-8 lg:px-12 xl:px-16 pt-4 sm:pt-6 pb-2">
-        <div className="w-full flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-10 xl:gap-14">
+      <main className="relative z-10 flex-1 min-h-0 flex flex-col justify-center w-full px-4 sm:px-8 lg:px-12 xl:px-16 py-1 sm:py-2">
+        <div className="w-full flex flex-col lg:flex-row items-center justify-between gap-6 lg:gap-8 xl:gap-12">
           <HeroTextPanel />
           <HeroChatPanel />
         </div>

@@ -15,7 +15,7 @@ describe('SomaHero – full page integration', () => {
 
   it('renders the darasa brand name', () => {
     render(<SomaHero />);
-    expect(screen.getAllByText('darasa').length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/darasa/i).length).toBeGreaterThan(0);
   });
 
   it('renders the main h1 heading', () => {
@@ -28,11 +28,14 @@ describe('SomaHero – full page integration', () => {
     expect(screen.getByRole('textbox', { name: /ask darasa/i })).toBeInTheDocument();
   });
 
-  it('renders all three illustration images', () => {
+  it('renders CBC line art illustrations', () => {
     render(<SomaHero />);
     expect(screen.getByAltText(/graduating cbc students/i)).toBeInTheDocument();
     expect(screen.getByAltText(/three cbc uniform students/i)).toBeInTheDocument();
     expect(screen.getByAltText(/mother and daughter/i)).toBeInTheDocument();
+    expect(screen.getByAltText(/teacher guiding young cbc learners/i)).toBeInTheDocument();
+    expect(screen.getByAltText(/teacher and learner exploring interactive/i)).toBeInTheDocument();
+    expect(screen.getByAltText(/mother encouraging learner/i)).toBeInTheDocument();
   });
 
   it('has a sticky header/nav landmark', () => {
