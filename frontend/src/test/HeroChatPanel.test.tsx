@@ -37,22 +37,30 @@ describe('HeroChatPanel – initial render', () => {
   });
 });
 
-// ── Tab switching ──────────────────────────────────────────────────────────────
+// ── Navigation Bar & Window Controls ───────────────────────────────────────
 
-describe('HeroChatPanel – tabs', () => {
-  it('renders all three tab buttons', () => {
+describe('HeroChatPanel – navigation bar & window controls', () => {
+  it('does not render Curriculum Hub, KICD Curriculum, or darasa 4o tags', () => {
     render(<HeroChatPanel />);
-    // Tab labels
-    expect(screen.getByRole('button', { name: /new chat tab/i })).toBeInTheDocument();
-    expect(screen.getByText('Curriculum Hub')).toBeInTheDocument();
-    expect(screen.getByText('KICD Curriculum')).toBeInTheDocument();
-    expect(screen.getAllByText('darasa').length).toBeGreaterThan(0);
+    expect(screen.queryByText('Curriculum Hub')).not.toBeInTheDocument();
+    expect(screen.queryByText('KICD Curriculum')).not.toBeInTheDocument();
+    expect(screen.queryByText('darasa 4o')).not.toBeInTheDocument();
   });
 
-  it('clicking Curriculum Hub tab does not throw', () => {
+  it('renders the start new conversation button below search', () => {
     render(<HeroChatPanel />);
-    const curriculumTab = screen.getByText('Curriculum Hub');
-    expect(() => fireEvent.click(curriculumTab)).not.toThrow();
+    const newConvBtn = screen.getByRole('button', { name: /start a new conversation/i });
+    expect(newConvBtn).toBeInTheDocument();
+  });
+
+  it('clicking new conversation resets the input', () => {
+    render(<HeroChatPanel />);
+    const input = screen.getByRole<HTMLInputElement>('textbox', { name: /ask darasa/i });
+    fireEvent.change(input, { target: { value: 'Something' } });
+    expect(input.value).toBe('Something');
+    const newConvBtn = screen.getByRole('button', { name: /start a new conversation/i });
+    fireEvent.click(newConvBtn);
+    expect(input.value).toBe('');
   });
 });
 

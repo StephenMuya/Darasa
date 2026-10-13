@@ -66,7 +66,6 @@ const ACTION_PILLS: { mode: PillMode; label: string; iconColor: string; prompt: 
 ];
 
 export default function HeroChatPanel() {
-  const [activeTab,  setActiveTab]  = useState<'darasa' | 'curriculum' | 'kicd'>('darasa');
   const [inputValue, setInputValue] = useState('');
   const [activeMode, setActiveMode] = useState<PillMode | null>(null);
 
@@ -75,61 +74,80 @@ export default function HeroChatPanel() {
     setInputValue(prompt);
   };
 
-  const tabBase    = 'flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium transition-all';
-  const tabActive  = 'bg-white text-slate-800 border border-[#1F7A4D]/25 shadow-2xs';
-  const tabInactive = 'text-slate-600 hover:text-slate-900 hover:bg-white/40';
-
   return (
     <div
       id="hero-chat-container"
-      className="order-2 lg:order-2 w-full lg:w-[48%] xl:w-[47%] 2xl:w-[46%] flex justify-center lg:justify-end items-center shrink-0"
+      className="order-2 lg:order-2 w-full lg:w-[42%] xl:w-[40%] 2xl:w-[38%] flex justify-center lg:justify-end items-center shrink-0"
     >
-      <div className="w-full max-w-full sm:max-w-2xl lg:max-w-3xl xl:max-w-[860px] 2xl:max-w-[920px] app-window-floating">
+      <div className="w-full max-w-full sm:max-w-xl lg:max-w-2xl xl:max-w-[700px] 2xl:max-w-[740px] app-window-floating">
 
-        {/* App Window Frame */}
-        <div className="w-full rounded-[26px] sm:rounded-[34px] bg-[#EAF3EE]/95 border border-[#1F7A4D]/20 shadow-[0_24px_50px_-12px_rgba(20,50,30,0.14)] overflow-hidden backdrop-blur-md">
+        {/* App Window Frame with glassmorphism */}
+        <div className="w-full rounded-xl sm:rounded-2xl glass-chat-window overflow-hidden">
 
-          {/* Tab Bar */}
-          <div className="px-4 sm:px-5 pt-3.5 pb-2.5 flex items-center gap-2 border-b border-[#1F7A4D]/15 bg-[#DFEDE4] select-none">
-            <button type="button" aria-label="New chat tab" className="w-6 h-6 rounded-lg bg-white/90 border border-[#1F7A4D]/20 flex items-center justify-center text-slate-600 hover:text-slate-900 shadow-2xs transition-colors">
-              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-              </svg>
-            </button>
-            <button type="button" onClick={() => setActiveTab('curriculum')} className={`hidden sm:flex ${tabBase} ${activeTab === 'curriculum' ? tabActive : tabInactive}`}>
-              <span className="w-2.5 h-2.5 rounded-full bg-pink-400/80" /><span>Curriculum Hub</span>
-            </button>
-            <button type="button" onClick={() => setActiveTab('kicd')} className={`hidden sm:flex ${tabBase} ${activeTab === 'kicd' ? tabActive : tabInactive}`}>
-              <span className="w-2.5 h-2.5 rounded-sm bg-blue-500/80" /><span>KICD Curriculum</span>
-            </button>
-            <button type="button" onClick={() => setActiveTab('darasa')} className={`flex items-center gap-2 px-3.5 py-1 rounded-lg text-xs font-semibold transition-all ${activeTab === 'darasa' ? tabActive : tabInactive}`}>
-              <DarasaLogoMark /><span>darasa</span><span className="ml-1 text-slate-400 hover:text-slate-600">×</span>
-            </button>
-            <span className="text-slate-400 text-xs px-1 select-none">···</span>
+          {/* Clean Window Navigation Bar (Tags removed) */}
+          <div className="px-4 sm:px-5 py-2 sm:py-2.5 flex items-center justify-between border-b border-white/40 bg-white/15 backdrop-blur-md select-none">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F56]/80 border border-red-400/30 inline-block" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]/80 border border-amber-400/30 inline-block" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#27C93F]/80 border border-emerald-400/30 inline-block" />
+            </div>
+            <div className="text-xs font-semibold text-slate-700 tracking-wide flex items-center gap-1.5">
+              <DarasaLogoMark size="w-3.5 h-3.5" />
+              <span>Darasa Interactive Workspace</span>
+            </div>
+            <div className="flex items-center gap-1 text-slate-400 text-xs select-none">
+              <span>···</span>
+            </div>
           </div>
 
           {/* Body: Sidebar + Chat Canvas */}
-          <div className="flex flex-row min-h-[440px] sm:min-h-[500px] lg:min-h-[540px]">
+          <div className="flex flex-row min-h-[350px] sm:min-h-[380px] lg:min-h-[400px] xl:min-h-[420px]">
 
-            {/* Left Sidebar */}
-            <aside className="w-52 sm:w-56 shrink-0 hidden md:flex flex-col justify-between border-r border-[#1F7A4D]/15 p-4 lg:p-5 text-left bg-[#E2EDE5]/70">
-              <div className="space-y-4">
-                <div className="flex items-center gap-2 px-1 pt-1">
+            {/* Adjusted Left Sidebar with clear glass backing */}
+            <aside className="w-52 sm:w-56 lg:w-60 shrink-0 hidden md:flex flex-col justify-between border-r border-white/40 p-3.5 sm:p-4 text-left bg-white/15 backdrop-blur-md">
+              <div className="space-y-3 flex flex-col flex-1 min-h-0">
+                {/* Word Logo with uppercase first letter */}
+                <div className="flex items-center gap-2 px-1 pt-0.5">
                   <DarasaLogoMark size="w-5 h-5" />
-                  <span className="font-extrabold text-base text-slate-900 font-['Outfit']">darasa</span>
+                  <span className="font-extrabold text-base text-slate-900 font-['Outfit']">Darasa</span>
                 </div>
-                <div className="flex items-center justify-between px-3 py-2 rounded-xl bg-white/90 border border-[#1F7A4D]/20 text-slate-500 text-xs shadow-2xs">
+
+                {/* Search Feature */}
+                <div className="flex items-center justify-between px-3 py-2 rounded-xl bg-white/25 backdrop-blur-sm border border-white/50 text-slate-600 text-xs shadow-2xs">
                   <div className="flex items-center gap-1.5">
                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                     <span>Search</span>
                   </div>
-                  <kbd className="text-[10px] font-mono px-1 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200">⌘K</kbd>
+                  <kbd className="text-[10px] font-mono px-1 py-0.5 rounded bg-white/40 text-slate-600 border border-white/60">⌘K</kbd>
                 </div>
-                <nav className="space-y-1 text-xs font-medium">
+
+                {/* Start a New Conversation feature below search */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setInputValue('');
+                    setActiveMode(null);
+                  }}
+                  aria-label="Start a new conversation"
+                  className="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-white/30 hover:bg-white/50 backdrop-blur-sm border border-white/60 text-slate-800 text-xs font-semibold shadow-2xs hover:shadow-xs transition-all group"
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="w-5 h-5 rounded-lg flex items-center justify-center text-white shadow-2xs" style={{ backgroundColor: 'var(--soma-accent)' }}>
+                      <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                      </svg>
+                    </span>
+                    <span className="text-slate-800 group-hover:text-[#18633E]">New conversation</span>
+                  </div>
+                  <kbd className="text-[10px] font-mono px-1 py-0.5 rounded bg-white/40 text-slate-500 border border-white/60">⌘N</kbd>
+                </button>
+
+                {/* Nav items */}
+                <nav className="space-y-1 text-xs font-medium pt-0.5">
                   {SIDEBAR_NAV.map(({ href, label, active, icon }) => (
-                    <a key={href} href={href} className={`flex items-center gap-2.5 px-3 py-2 rounded-xl transition-colors ${active ? 'bg-white text-slate-900 border border-[#1F7A4D]/20 shadow-2xs' : 'text-slate-600 hover:text-slate-900'}`}>
+                    <a key={href} href={href} className={`flex items-center gap-2.5 px-3 py-2 rounded-xl transition-colors ${active ? 'bg-white/45 text-slate-900 border border-white/70 shadow-2xs' : 'text-slate-600 hover:text-slate-900 hover:bg-white/20'}`}>
                       <svg className="w-4 h-4" style={active ? { color: 'var(--soma-accent)' } : {}} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={icon} />
                       </svg>
@@ -137,42 +155,55 @@ export default function HeroChatPanel() {
                     </a>
                   ))}
                 </nav>
-                <div className="pt-2">
-                  <span className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider block px-1 mb-1.5">Recent Lessons</span>
-                  <div className="space-y-1.5 text-xs text-slate-600">
-                    {['Plant transpiration lab...', 'Soil conservation project...', 'CBC formative rubric...'].map((item) => (
-                      <p key={item} className="truncate px-1 py-0.5 hover:text-slate-900 cursor-pointer">{item}</p>
+
+                {/* Increased Recent Lessons occupying remaining space */}
+                <div className="pt-1.5 flex-1 flex flex-col min-h-0">
+                  <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block px-1 mb-1.5">Recent Lessons</span>
+                  <div className="flex-1 space-y-1 text-xs text-slate-600 overflow-y-auto pr-1">
+                    {[
+                      'Plant transpiration lab...',
+                      'Soil conservation project...',
+                      'CBC formative rubric...',
+                      'Grade 7 Integrated Science...',
+                      'Indigenous crafts & culture...',
+                      'Fractions practical activity...',
+                      'Water cycle model design...',
+                      'Kenyan flora classification...',
+                      'Energy transformation kit...',
+                    ].map((item) => (
+                      <button
+                        key={item}
+                        type="button"
+                        onClick={() => setInputValue(item.replace('...', ''))}
+                        className="w-full text-left truncate px-2 py-1.5 rounded-lg hover:bg-white/40 hover:text-slate-900 transition-colors flex items-center gap-1.5"
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#1F7A4D]/50 shrink-0" />
+                        <span className="truncate">{item}</span>
+                      </button>
                     ))}
                   </div>
                 </div>
               </div>
-              <div className="pt-3 border-t border-[#1F7A4D]/15 flex items-center gap-2 px-1">
+
+              {/* Status bar */}
+              <div className="pt-3 mt-auto border-t border-white/40 flex items-center gap-2 px-1">
                 <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
-                <span className="text-xs text-slate-700 font-medium">darasa Online</span>
+                <span className="text-xs text-slate-700 font-medium">Darasa Online</span>
               </div>
             </aside>
 
-            {/* Main Chat Canvas */}
-            <div className="flex-1 p-5 sm:p-7 lg:p-8 flex flex-col justify-between text-left bg-[#EAF3EE]">
-              {/* Model Selector */}
-              <div className="flex items-center justify-between">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/95 border border-[#1F7A4D]/20 shadow-2xs text-xs font-semibold text-slate-800">
-                  <DarasaLogoMark /><span>darasa 4o</span>
-                  <svg className="w-3 h-3 text-slate-500 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </div>
-              </div>
+            {/* Main Chat Canvas – completely clear, showing background through glass */}
+            <div className="flex-1 p-3 sm:p-4 lg:p-5 flex flex-col justify-between text-left bg-transparent">
 
-              {/* Greeting + Orb */}
-              <div className="py-7 sm:py-9 lg:py-10 flex flex-col items-center justify-center text-center space-y-3.5">
-                <div className="relative flex items-center justify-center mb-1">
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-22 lg:h-22 rounded-full luminous-3d-orb" />
-                  <div className="absolute inset-0 rounded-full blur-md opacity-40 pointer-events-none" style={{ background: 'radial-gradient(circle, #93C5FD 0%, #A7F3D0 100%)' }} />
+              {/* Greeting + Orb with gentle fading effect */}
+              <div className="py-2 sm:py-2.5 lg:py-3.5 flex flex-col items-center justify-center text-center space-y-1.5 sm:space-y-2">
+                <div className="relative flex items-center justify-center mb-0.5">
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 rounded-full luminous-3d-orb" />
+                  <div className="absolute inset-0 rounded-full blur-md opacity-40 pointer-events-none animate-fade-in-out" style={{ background: 'radial-gradient(circle, #93C5FD 0%, #A7F3D0 100%)' }} />
                 </div>
-                <div className="space-y-1">
-                  <h2 className="text-2xl sm:text-3xl lg:text-[2rem] font-bold text-slate-900 tracking-tight font-['Outfit']">Good Morning, Judha</h2>
-                  <p className="text-xl sm:text-2xl lg:text-[1.7rem] font-bold tracking-tight text-slate-800 font-['Outfit']">
+                <div className="space-y-0.5">
+                  <h2 className="text-lg sm:text-xl lg:text-[1.65rem] font-bold text-slate-900 tracking-tight font-['Outfit']">Good Morning, Judha</h2>
+                  <p className="text-base sm:text-lg lg:text-[1.4rem] font-bold tracking-tight text-slate-800 font-['Outfit']">
                     How Can I{' '}
                     <span style={{ color: 'var(--soma-accent)' }} className="underline decoration-emerald-500/30 underline-offset-4">
                       Assist You Today?
@@ -181,45 +212,46 @@ export default function HeroChatPanel() {
                 </div>
               </div>
 
-              {/* Prompt Card */}
-              <div className="w-full rounded-2xl sm:rounded-3xl bg-white/95 border border-[#1F7A4D]/25 shadow-md p-4 sm:p-5 lg:p-6 space-y-4 transition-all focus-within:border-emerald-600/70">
+              {/* Prompt Card with clear glassmorphism */}
+              <div className="w-full rounded-xl sm:rounded-2xl glass-prompt-card p-3 sm:p-3.5 lg:p-4 space-y-2.5 sm:space-y-3 transition-all focus-within:border-emerald-600/70 focus-within:ring-2 focus-within:ring-emerald-500/15">
                 <div className="flex items-start gap-3">
-                  <span className="text-base sm:text-lg shrink-0 mt-0.5 font-bold" style={{ color: 'var(--soma-accent)' }} aria-hidden="true">✦</span>
+                  <span className="text-base sm:text-lg shrink-0 mt-0.5 font-bold animate-fade-in-out" style={{ color: 'var(--soma-accent)' }} aria-hidden="true">✦</span>
                   <input
                     type="text"
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     placeholder="Initiate a query or send a command to the AI..."
-                    aria-label="Ask darasa a CBC curriculum question"
+                    aria-label="Ask Darasa a CBC curriculum question"
                     className="w-full bg-transparent text-sm sm:text-base text-slate-800 placeholder-slate-400 focus:outline-none"
                   />
                 </div>
-                <div className="flex flex-wrap items-center justify-between gap-2.5 pt-2 border-t border-slate-100">
+                <div className="flex flex-wrap items-center justify-between gap-2.5 pt-2 border-t border-white/40">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <button type="button" aria-label="Attach file" className="p-2 rounded-xl text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors">
+                    <button type="button" aria-label="Attach file" className="p-1.5 sm:p-2 rounded-lg text-slate-500 hover:text-slate-800 hover:bg-white/40 transition-colors">
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
                       </svg>
                     </button>
+                    {/* Action pills with reduced text size and clear glass backing */}
                     {ACTION_PILLS.map(({ mode, label, iconColor, prompt, iconPath, hidden }) => (
                       <button
                         key={mode}
                         type="button"
                         onClick={() => handlePillClick(mode, prompt)}
-                        className={`${hidden ? 'hidden sm:inline-flex' : 'inline-flex'} items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs sm:text-[13px] font-medium border transition-all ${
+                        className={`${hidden ? 'hidden sm:inline-flex' : 'inline-flex'} items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-lg text-[11px] sm:text-xs font-medium border transition-all ${
                           activeMode === mode
-                            ? 'bg-[#DDEFE4] text-emerald-900 border-[#1F7A4D]/50 shadow-2xs'
-                            : 'bg-[#EAF3EE] text-[#18633E] border-[#1F7A4D]/20 hover:bg-[#DCEEE3]'
+                            ? 'bg-emerald-600/20 text-emerald-950 border-emerald-500/40 shadow-2xs backdrop-blur-xs'
+                            : 'bg-white/25 hover:bg-white/45 text-[#0d4a25] border-white/50 shadow-2xs backdrop-blur-xs'
                         }`}
                       >
-                        <svg className={`w-3.5 h-3.5 ${iconColor}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg className={`w-3 h-3 ${iconColor}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={iconPath} />
                         </svg>
                         <span>{label}</span>
                       </button>
                     ))}
                   </div>
-                  <button type="button" aria-label="Send prompt" className="w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center shrink-0 text-white transition-transform hover:scale-105 active:scale-95 shadow-xs" style={{ backgroundColor: 'var(--soma-accent)' }}>
+                  <button type="button" aria-label="Send prompt" className="glass-btn-accent w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center shrink-0 text-white transition-transform hover:scale-105 active:scale-95" style={{ backgroundColor: 'var(--soma-accent)' }}>
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                     </svg>
