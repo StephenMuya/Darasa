@@ -11,10 +11,10 @@ export default function HeroLineArt() {
   return (
     <div
       aria-hidden="true"
-      className="relative w-full overflow-hidden select-none pointer-events-none mt-auto pt-4"
+      className="relative w-full overflow-hidden select-none pointer-events-none mt-auto pt-1 sm:pt-2"
     >
       {/* Seamless top divider */}
-      <div className="w-full h-px bg-gradient-to-r from-transparent via-[#1F7A4D]/20 to-transparent mb-2" />
+      <div className="w-full h-px bg-gradient-to-r from-transparent via-[#1F7A4D]/20 to-transparent mb-1 sm:mb-2" />
 
       {/* Ambient atmospheric glow in the bottom-left space */}
       <div
@@ -37,62 +37,69 @@ export default function HeroLineArt() {
         </svg>
       </div>
 
-      {/* Main artwork row */}
-      <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-row items-end justify-center gap-3 sm:gap-6 md:gap-9 lg:gap-11 pb-0 relative z-10">
+      {/* Main artwork row – 6 continuous line-art scenes occupying almost the entire screen width */}
+      <div className="w-full max-w-[99vw] 2xl:max-w-[1920px] mx-auto px-1 sm:px-2 md:px-4 lg:px-6 xl:px-8 flex flex-row items-end justify-between gap-1 sm:gap-2 md:gap-3 lg:gap-4 xl:gap-6 pb-0 relative z-10">
 
-        {/* Decorative element: open book + knowledge sprout */}
-        <div className="hidden sm:flex flex-shrink-0 items-end justify-end max-w-[15%] md:max-w-[16%] lg:max-w-[170px] mb-0.5 opacity-65">
-          <svg
-            viewBox="0 0 160 100"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-full h-auto text-[#184C30]"
-          >
-            {/* Ground entry */}
-            <path d="M 0 98 L 60 98" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-            {/* Open textbook */}
-            <path d="M 60 98 C 68 86, 84 82, 98 84 C 108 85, 118 90, 122 98" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M 98 84 L 98 98" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-            <path d="M 60 98 C 68 90, 80 88, 98 88 C 108 88, 116 93, 122 98" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
-            {/* Growth sprout */}
-            <path d="M 98 84 C 98 76, 99 69, 103 64 C 106 60, 111 59, 114 61 C 117 64, 116 68, 112 72 C 108 76, 102 78, 99 82" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M 101 68 C 97 64, 93 63, 90 65 C 87 67, 88 71, 92 74 C 95 76, 98 77, 99 79" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-            {/* Baseline exit */}
-            <path d="M 122 98 L 160 98" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-          </svg>
-        </div>
-
-        {/* Scene 1 – Graduating students */}
-        <div className="flex-shrink-0 flex justify-center items-end max-w-[28%] sm:max-w-[26%] md:max-w-[270px]">
+        {/* Scene 1 – Teacher introducing lesson to young learners */}
+        <div className="flex-1 min-w-0 flex justify-center items-end max-w-[16.5%]">
           <img
-            src="/images/graduates.png"
-            alt="Graduating CBC students celebrating with mortarboards and scrolls"
-            className="w-full max-h-28 sm:max-h-36 md:max-h-44 lg:max-h-52 object-contain object-bottom transition-all duration-300"
+            src="/images/teacher-learners-class.png"
+            alt="Teacher guiding young CBC learners listening attentively with books"
+            className="w-full max-h-32 sm:max-h-44 md:max-h-52 lg:max-h-60 xl:max-h-72 2xl:max-h-80 object-contain object-bottom transition-all duration-300"
           />
         </div>
 
         {/* Scene 2 – Students collaborating at desk */}
-        <div className="flex-shrink-0 flex justify-center items-end max-w-[38%] sm:max-w-[35%] md:max-w-[370px]">
+        <div className="flex-1 min-w-0 flex justify-center items-end max-w-[16.5%]">
           <img
             src="/images/students-desk.png"
             alt="Three CBC uniform students studying around table with textbook, notebook and tablet"
-            className="w-full max-h-28 sm:max-h-36 md:max-h-44 lg:max-h-52 object-contain object-bottom transition-all duration-300"
+            className="w-full max-h-32 sm:max-h-44 md:max-h-52 lg:max-h-60 xl:max-h-72 2xl:max-h-80 object-contain object-bottom transition-all duration-300"
           />
         </div>
 
-        {/* Scene 3 – Parent & child on laptop */}
-        <div className="flex-shrink-0 flex justify-center items-end max-w-[30%] sm:max-w-[28%] md:max-w-[310px]">
+        {/* Scene 3 – Teacher and student exploring tablet lesson */}
+        <div className="flex-1 min-w-0 flex justify-center items-end max-w-[16.5%]">
+          <img
+            src="/images/teacher-student-tablet.png"
+            alt="Teacher and learner exploring interactive digital lesson on tablet"
+            className="w-full max-h-32 sm:max-h-44 md:max-h-52 lg:max-h-60 xl:max-h-72 2xl:max-h-80 object-contain object-bottom transition-all duration-300"
+          />
+        </div>
+
+        {/* Scene 4 – Parent encouraging learner with backpack */}
+        <div className="flex-1 min-w-0 flex justify-center items-end max-w-[16.5%]">
+          <img
+            src="/images/parent-learner-backpack.png"
+            alt="Mother encouraging learner with school backpack"
+            className="w-full max-h-32 sm:max-h-44 md:max-h-52 lg:max-h-60 xl:max-h-72 2xl:max-h-80 object-contain object-bottom transition-all duration-300"
+          />
+        </div>
+
+        {/* Scene 5 – Parent & child working on laptop */}
+        <div className="flex-1 min-w-0 flex justify-center items-end max-w-[16.5%]">
           <img
             src="/images/parent-child.png"
             alt="Mother and daughter working together on laptop"
-            className="w-full max-h-28 sm:max-h-36 md:max-h-44 lg:max-h-52 object-contain object-bottom transition-all duration-300"
+            className="w-full max-h-32 sm:max-h-44 md:max-h-52 lg:max-h-60 xl:max-h-72 2xl:max-h-80 object-contain object-bottom transition-all duration-300"
+          />
+        </div>
+
+        {/* Scene 6 – Graduating students celebrating */}
+        <div className="flex-1 min-w-0 flex justify-center items-end max-w-[16.5%]">
+          <img
+            src="/images/graduates.png"
+            alt="Graduating CBC students celebrating with mortarboards and scrolls"
+            className="w-full max-h-32 sm:max-h-44 md:max-h-52 lg:max-h-60 xl:max-h-72 2xl:max-h-80 object-contain object-bottom transition-all duration-300"
           />
         </div>
 
       </div>
 
-      {/* Ground baseline gradient */}
-      <div className="w-full h-[2px] bg-gradient-to-r from-[#1F7A4D]/25 via-[#EE9B2E]/60 to-[#1F7A4D]/25" />
+      {/* Ground baseline blending mask (seamless transition into following section) */}
+      <div className="relative w-full">
+        <div className="absolute -top-3 left-0 right-0 h-3 bg-gradient-to-t from-[#DCEDE2]/70 to-transparent pointer-events-none" />
+      </div>
     </div>
   );
 }

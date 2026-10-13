@@ -30,6 +30,27 @@ describe('HeroLineArt – scene images', () => {
     ).toBeInTheDocument();
   });
 
+  it('renders the teacher-learners classroom scene image', () => {
+    render(<HeroLineArt />);
+    expect(
+      screen.getByAltText(/teacher guiding young cbc learners/i),
+    ).toBeInTheDocument();
+  });
+
+  it('renders the teacher-student tablet scene image', () => {
+    render(<HeroLineArt />);
+    expect(
+      screen.getByAltText(/teacher and learner exploring interactive digital lesson/i),
+    ).toBeInTheDocument();
+  });
+
+  it('renders the parent-learner backpack scene image', () => {
+    render(<HeroLineArt />);
+    expect(
+      screen.getByAltText(/mother encouraging learner with school backpack/i),
+    ).toBeInTheDocument();
+  });
+
   it('graduates image points to /images/graduates.png', () => {
     render(<HeroLineArt />);
     const img = screen.getByAltText(/graduating cbc students/i);
