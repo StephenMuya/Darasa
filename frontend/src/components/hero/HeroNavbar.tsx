@@ -16,18 +16,18 @@ interface HeroNavbarProps {
 export default function HeroNavbar({ isOpen, onToggle }: HeroNavbarProps) {
   return (
     <header className="sticky top-0 z-40 w-full bg-transparent transition-colors">
-      <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16 py-4 sm:py-5 lg:py-6 flex items-center justify-between">
+      <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16 py-2 sm:py-2.5 lg:py-3.5 flex items-center justify-between">
 
         {/* Brand Logo & Name */}
         <div className="flex items-center">
           <a
             href="/"
-            className="flex items-center gap-3 sm:gap-3.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1F7A4D] rounded-xl group"
-            aria-label="darasa Home"
+            className="flex items-center gap-2.5 sm:gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1F7A4D] rounded-xl group"
+            aria-label="Darasa Home"
           >
             <svg
               viewBox="0 0 100 100"
-              className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 shrink-0 transition-transform group-hover:scale-105"
+              className="w-10 h-10 sm:w-11 sm:h-11 lg:w-13 lg:h-13 shrink-0 transition-transform group-hover:scale-105"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
               aria-hidden="true"
@@ -35,8 +35,8 @@ export default function HeroNavbar({ isOpen, onToggle }: HeroNavbarProps) {
               <circle cx="45" cy="55" r="18.5" stroke="currentColor" strokeWidth="9" className="text-slate-900" />
               <rect x="64" y="22" width="9" height="56" rx="4.5" fill="#EE9B2E" />
             </svg>
-            <span className="text-3xl sm:text-4xl lg:text-[2.85rem] font-black tracking-tight text-slate-900 font-['Outfit'] leading-none">
-              darasa
+            <span className="text-2xl sm:text-3xl lg:text-[2.4rem] font-black tracking-tight text-slate-900 font-['Outfit'] leading-none">
+              Darasa
             </span>
           </a>
         </div>
@@ -70,13 +70,13 @@ export default function HeroNavbar({ isOpen, onToggle }: HeroNavbarProps) {
           </a>
           <button
             type="button"
-            className="inline-flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold text-white shadow-xs hover:shadow-sm hover:-translate-y-0.5 active:translate-y-0 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1F7A4D]"
+            className="glass-btn-accent inline-flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold text-[#0d4a25] hover:-translate-y-0.5 active:translate-y-0 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1F7A4D]"
             style={{ backgroundColor: 'var(--soma-accent)' }}
             onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'var(--soma-accent-hover)')}
             onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'var(--soma-accent)')}
           >
             <span>Start Free</span>
-            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="w-3.5 h-3.5 text-[#0d4a25]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
             </svg>
           </button>
@@ -126,7 +126,7 @@ export default function HeroNavbar({ isOpen, onToggle }: HeroNavbarProps) {
           <div className="pt-2 border-t border-[#1F7A4D]/15 flex flex-col gap-2">
             <button
               type="button"
-              className="w-full py-2.5 rounded-full text-sm font-semibold text-white shadow-xs"
+              className="glass-btn-accent w-full py-2.5 rounded-full text-sm font-bold text-[#0d4a25]"
               style={{ backgroundColor: 'var(--soma-accent)' }}
             >
               Start Free

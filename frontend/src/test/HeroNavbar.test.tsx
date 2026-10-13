@@ -20,7 +20,7 @@ function renderNavbar(isOpen = false) {
 describe('HeroNavbar – branding', () => {
   it('renders the darasa brand name', () => {
     renderNavbar();
-    expect(screen.getByText('darasa')).toBeInTheDocument();
+    expect(screen.getByText('Darasa')).toBeInTheDocument();
   });
 
   it('home link points to "/"', () => {
