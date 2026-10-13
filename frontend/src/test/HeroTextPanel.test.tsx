@@ -29,7 +29,7 @@ describe('HeroTextPanel – headline', () => {
 describe('HeroTextPanel – sub-heading', () => {
   it('renders the sub-heading paragraph', () => {
     render(<HeroTextPanel />);
-    const subheading = screen.getByText(/actual curriculum/i);
+    const subheading = screen.getByText(/official KICD Curriculum Designs/i);
     expect(subheading).toBeInTheDocument();
   });
 
