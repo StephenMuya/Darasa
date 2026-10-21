@@ -3,10 +3,51 @@
 /**
  * HeroLineArt
  * Single responsibility: Bottom panoramic line-art illustration strip.
- * Contains the three scenes (graduates, students-at-desk, parent-child)
- * plus the decorative learning motif and baseline gradient.
- * Purely presentational — no state, no interactivity.
+ * Contains the six scenes (teacher & class, students at desk, tablet exploration,
+ * parent with backpack, parent & child laptop, graduating students)
+ * plus the decorative learning contours and baseline gradient.
+ * Purely presentational — data-driven, declarative, and accessible.
  */
+
+interface LineArtScene {
+  id: string;
+  src: string;
+  alt: string;
+}
+
+const LINE_ART_SCENES: LineArtScene[] = [
+  {
+    id: 'teacher-learners',
+    src: '/images/teacher-learners-class.png',
+    alt: 'Teacher guiding young CBC learners listening attentively with books',
+  },
+  {
+    id: 'students-desk',
+    src: '/images/students-desk.png',
+    alt: 'Three CBC uniform students studying around table with textbook, notebook and tablet',
+  },
+  {
+    id: 'teacher-student-tablet',
+    src: '/images/teacher-student-tablet.png',
+    alt: 'Teacher and learner exploring interactive digital lesson on tablet',
+  },
+  {
+    id: 'parent-learner-backpack',
+    src: '/images/parent-learner-backpack.png',
+    alt: 'Mother encouraging learner with school backpack',
+  },
+  {
+    id: 'parent-child',
+    src: '/images/parent-child.png',
+    alt: 'Mother and daughter working together on laptop',
+  },
+  {
+    id: 'graduates',
+    src: '/images/graduates.png',
+    alt: 'Graduating CBC students celebrating with mortarboards and scrolls',
+  },
+];
+
 export default function HeroLineArt() {
   return (
     <div
@@ -39,61 +80,16 @@ export default function HeroLineArt() {
 
       {/* Main artwork row – 6 continuous line-art scenes occupying almost the entire screen width */}
       <div className="w-full max-w-[99vw] 2xl:max-w-[1920px] mx-auto px-1 sm:px-2 md:px-4 lg:px-6 xl:px-8 flex flex-row items-end justify-between gap-1 sm:gap-2 md:gap-3 lg:gap-4 xl:gap-6 pb-0 relative z-10">
-
-        {/* Scene 1 – Teacher introducing lesson to young learners */}
-        <div className="flex-1 min-w-0 flex justify-center items-end max-w-[16.5%]">
-          <img
-            src="/images/teacher-learners-class.png"
-            alt="Teacher guiding young CBC learners listening attentively with books"
-            className="w-full max-h-32 sm:max-h-44 md:max-h-52 lg:max-h-60 xl:max-h-72 2xl:max-h-80 object-contain object-bottom transition-all duration-300"
-          />
-        </div>
-
-        {/* Scene 2 – Students collaborating at desk */}
-        <div className="flex-1 min-w-0 flex justify-center items-end max-w-[16.5%]">
-          <img
-            src="/images/students-desk.png"
-            alt="Three CBC uniform students studying around table with textbook, notebook and tablet"
-            className="w-full max-h-32 sm:max-h-44 md:max-h-52 lg:max-h-60 xl:max-h-72 2xl:max-h-80 object-contain object-bottom transition-all duration-300"
-          />
-        </div>
-
-        {/* Scene 3 – Teacher and student exploring tablet lesson */}
-        <div className="flex-1 min-w-0 flex justify-center items-end max-w-[16.5%]">
-          <img
-            src="/images/teacher-student-tablet.png"
-            alt="Teacher and learner exploring interactive digital lesson on tablet"
-            className="w-full max-h-32 sm:max-h-44 md:max-h-52 lg:max-h-60 xl:max-h-72 2xl:max-h-80 object-contain object-bottom transition-all duration-300"
-          />
-        </div>
-
-        {/* Scene 4 – Parent encouraging learner with backpack */}
-        <div className="flex-1 min-w-0 flex justify-center items-end max-w-[16.5%]">
-          <img
-            src="/images/parent-learner-backpack.png"
-            alt="Mother encouraging learner with school backpack"
-            className="w-full max-h-32 sm:max-h-44 md:max-h-52 lg:max-h-60 xl:max-h-72 2xl:max-h-80 object-contain object-bottom transition-all duration-300"
-          />
-        </div>
-
-        {/* Scene 5 – Parent & child working on laptop */}
-        <div className="flex-1 min-w-0 flex justify-center items-end max-w-[16.5%]">
-          <img
-            src="/images/parent-child.png"
-            alt="Mother and daughter working together on laptop"
-            className="w-full max-h-32 sm:max-h-44 md:max-h-52 lg:max-h-60 xl:max-h-72 2xl:max-h-80 object-contain object-bottom transition-all duration-300"
-          />
-        </div>
-
-        {/* Scene 6 – Graduating students celebrating */}
-        <div className="flex-1 min-w-0 flex justify-center items-end max-w-[16.5%]">
-          <img
-            src="/images/graduates.png"
-            alt="Graduating CBC students celebrating with mortarboards and scrolls"
-            className="w-full max-h-32 sm:max-h-44 md:max-h-52 lg:max-h-60 xl:max-h-72 2xl:max-h-80 object-contain object-bottom transition-all duration-300"
-          />
-        </div>
-
+        {LINE_ART_SCENES.map((scene) => (
+          <div key={scene.id} className="flex-1 min-w-0 flex justify-center items-end max-w-[16.5%]">
+            <img
+              src={scene.src}
+              alt={scene.alt}
+              decoding="async"
+              className="w-full max-h-32 sm:max-h-44 md:max-h-52 lg:max-h-60 xl:max-h-72 2xl:max-h-80 object-contain object-bottom transition-all duration-300"
+            />
+          </div>
+        ))}
       </div>
 
       {/* Ground baseline blending mask (seamless transition into following section) */}
