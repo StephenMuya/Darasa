@@ -5,11 +5,23 @@
  * Single responsibility: Left content column — headline, sub-heading, and CTA buttons.
  * Purely presentational; no internal state.
  */
-export default function HeroTextPanel() {
+interface HeroTextPanelProps {
+  onOpenAuth?: (mode?: 'login' | 'signup') => void;
+}
+
+export default function HeroTextPanel({ onOpenAuth }: HeroTextPanelProps = {}) {
+  const handleStartChatting = () => {
+    if (onOpenAuth) {
+      onOpenAuth('signup');
+    } else {
+      window.location.hash = '#auth';
+    }
+  };
+
   return (
     <div
       id="hero-text-container"
-      className="order-1 lg:order-1 w-full lg:w-[57%] xl:w-[59%] 2xl:w-[61%] flex flex-col items-start justify-center text-left space-y-3 sm:space-y-3.5 lg:space-y-4 pr-0 xl:pr-4"
+      className="order-1 lg:order-1 w-full lg:w-[48%] xl:w-[48%] 2xl:w-[47%] flex flex-col items-start justify-center text-left space-y-3 sm:space-y-3.5 lg:space-y-4 pr-0 xl:pr-4"
     >
       {/* ── Headline ── */}
       <div id="hero-heading-box" className="w-full mt-0">
@@ -36,11 +48,10 @@ export default function HeroTextPanel() {
           {/* Primary CTA */}
           <button
             type="button"
+            onClick={handleStartChatting}
             aria-label="Start chatting with Darasa"
-            className="group glass-btn-accent inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full text-sm sm:text-base font-bold text-[#0d4a25] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1F7A4D] focus-visible:ring-offset-2"
-            style={{ backgroundColor: 'var(--soma-accent)' }}
-            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'var(--soma-accent-hover)')}
-            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'var(--soma-accent)')}
+            className="group glass-btn-accent inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full text-sm sm:text-base font-bold text-[#0d4a25] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1F7A4D] focus-visible:ring-offset-2 cursor-pointer"
+            
           >
             <span>Start chatting</span>
             <svg
