@@ -5,7 +5,7 @@
  * and all major landmarks are present in a single render.
  */
 import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+// vitest globals
 import SomaHero from '../components/SomaHero';
 
 describe('SomaHero – full page integration', () => {

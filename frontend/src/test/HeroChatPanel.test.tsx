@@ -4,7 +4,7 @@
  * Tests: tab switching, prompt input, action pill interactions, send button.
  */
 import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+// vitest globals
 import HeroChatPanel from '../components/hero/HeroChatPanel';
 
 // ── Initial render ─────────────────────────────────────────────────────────────
