@@ -1,0 +1,42 @@
+﻿version: "3.8"
+
+services:
+  # Plain PostgreSQL 16 (Standard relational storage for Users, Conversations, Messages)
+  # When ready for pgvector in the RAG pipeline phase, the image can be swapped to pgvector/pgvector:pg16
+  postgres:
+    image: postgres:16-alpine
+    container_name: darasa-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: darasa_db
+    ports:
+      # If port 5432 is occupied by local Windows PostgreSQL, switch host port to "5433:5432"
+      - "5432:5432"
+    volumes:
+      - darasa_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d darasa_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Redis 7 for session caching and rate-limiting
+  redis:
+    image: redis:7-alpine
+    container_name: darasa-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - darasa_redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  darasa_postgres_data:
+  darasa_redis_data:
