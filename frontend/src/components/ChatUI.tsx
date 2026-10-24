@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 /**
  * ChatUI.tsx
@@ -7,13 +7,15 @@
  * Sits directly on the section without an artificial window container.
  * Default state: Vertically and horizontally centered with the 3D luminous orb,
  * greeting typography, and interactive prompt card.
- * Active state: Seamless conversation stream with instant KICD pedagogical guidance.
+ * Active state: Seamless conversation stream with live backend inquiry integration
+ * and instant KICD pedagogical guidance fallback.
  */
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import ChatHeader from './chat/ChatHeader';
 import ChatMessageList from './chat/ChatMessageList';
 import ChatPromptCard from './chat/ChatPromptCard';
+import { chatService } from '../services/chatService';
 import { CBCInquiryService } from '../services/cbcInquiryService';
 import { SOMA_THEME_VARS } from '../theme/tokens';
 import type {
@@ -32,6 +34,7 @@ export default function ChatUI({ initialPrompt = '', onBack }: ChatUIProps) {
   const [activeMode, setActiveMode] = useState<PillMode | null>(null);
   const [isThinking, setIsThinking] = useState(false);
   const [copiedRubricId, setCopiedRubricId] = useState<string | null>(null);
+  const [conversationId, setConversationId] = useState<string | undefined>(undefined);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = useCallback(() => {
@@ -70,7 +73,7 @@ export default function ChatUI({ initialPrompt = '', onBack }: ChatUIProps) {
     setTimeout(() => setCopiedRubricId(null), 2000);
   };
 
-  const handleSendMessage = (e?: React.FormEvent, customText?: string) => {
+  const handleSendMessage = async (e?: React.FormEvent, customText?: string) => {
     if (e) e.preventDefault();
     const query = (customText ?? inputValue).trim();
     if (!query) return;
@@ -88,8 +91,11 @@ export default function ChatUI({ initialPrompt = '', onBack }: ChatUIProps) {
     setActiveMode(null);
     setIsThinking(true);
 
-    setTimeout(() => {
-      const inquiryResult = CBCInquiryService.generateResponse(query);
+    try {
+      const inquiryResult = await chatService.sendInquiry(query, conversationId, 'teacher');
+      if (inquiryResult.conversationId) {
+        setConversationId(inquiryResult.conversationId);
+      }
 
       const aiMsg: Message = {
         id: nextMsgId(),
@@ -103,14 +109,30 @@ export default function ChatUI({ initialPrompt = '', onBack }: ChatUIProps) {
       };
 
       setMessages((prev) => [...prev, aiMsg]);
+    } catch {
+      // Graceful fallback to local curriculum intelligence if backend is offline
+      const fallback = CBCInquiryService.generateResponse(query);
+      const aiMsg: Message = {
+        id: nextMsgId(),
+        sender: 'darasa',
+        senderName: 'Darasa CBC Assistant',
+        timestamp: 'Just now',
+        text: fallback.text,
+        materials: fallback.materials,
+        rubric: fallback.rubric,
+        followUps: fallback.followUps,
+      };
+      setMessages((prev) => [...prev, aiMsg]);
+    } finally {
       setIsThinking(false);
-    }, 400);
+    }
   };
 
   const handleResetToDefault = () => {
     setMessages([]);
     setInputValue('');
     setActiveMode(null);
+    setConversationId(undefined);
   };
 
   return (
@@ -119,7 +141,7 @@ export default function ChatUI({ initialPrompt = '', onBack }: ChatUIProps) {
       className="relative w-full h-screen h-[100dvh] overflow-hidden flex flex-col justify-between bg-gradient-to-br from-[#F5FAF7] via-[#EAF3EE] to-[#DCEDE2] text-slate-900 transition-colors"
       style={SOMA_THEME_VARS}
     >
-      {/* ── Ambient Radial Orbs matching Hero section ── */}
+      {/* Ambient Radial Orbs matching Hero section */}
       <div
         aria-hidden="true"
         className="ambient-right-amber-glow absolute top-10 right-0 w-[420px] sm:w-[650px] h-[420px] sm:h-[650px] rounded-full pointer-events-none select-none z-0 opacity-55"
@@ -141,10 +163,10 @@ export default function ChatUI({ initialPrompt = '', onBack }: ChatUIProps) {
         }}
       />
 
-      {/* ── Top Navigation Header (Only Brand Logo Mark, Wordmark & Attached Info) ── */}
+      {/* Top Navigation Header (Only Brand Logo Mark, Wordmark & Attached Info) */}
       <ChatHeader onBack={onBack} />
 
-      {/* ── Main Canvas (Sits directly on the section without nested window box) ── */}
+      {/* Main Canvas (Sits directly on the section without nested window box) */}
       <main
         aria-label="Darasa AI Conversation Workspace"
         className="relative z-20 flex-1 min-h-0 w-full max-w-4xl xl:max-w-5xl mx-auto px-4 sm:px-6 md:px-8 py-3 sm:py-5 flex flex-col justify-between overflow-hidden"
@@ -186,7 +208,7 @@ export default function ChatUI({ initialPrompt = '', onBack }: ChatUIProps) {
             </div>
           </div>
         ) : (
-          /* ── Default Centered State: Orb + Typography + Input Elements ── */
+          /* Default Centered State: Orb + Typography + Input Elements */
           <div className="flex-1 flex flex-col items-center justify-center text-center my-auto px-2 sm:px-4">
             {/* 3D Luminous Orb */}
             <div className="relative flex items-center justify-center mb-3 sm:mb-4">
