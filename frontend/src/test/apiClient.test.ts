@@ -1,4 +1,4 @@
-﻿/**
+/**
  * apiClient.test.ts
  *
  * Unit tests for API client: request headers, token attachment,
@@ -31,15 +31,15 @@ describe('apiClient - getApiBaseUrl', () => {
 });
 
 describe('apiClient - request function', () => {
-  const originalFetch = global.fetch;
+  const originalFetch = globalThis.fetch;
 
   afterEach(() => {
-    global.fetch = originalFetch;
+    globalThis.fetch = originalFetch;
     tokenStorage.remove();
   });
 
   it('performs successful GET request and parses JSON', async () => {
-    global.fetch = vi.fn().mockResolvedValue({
+    globalThis.fetch = vi.fn().mockResolvedValue({
       ok: true,
       status: 200,
       json: async () => ({ status: 'ok' }),
@@ -47,7 +47,7 @@ describe('apiClient - request function', () => {
 
     const result = await request<{ status: string }>('/health');
     expect(result).toEqual({ status: 'ok' });
-    expect(global.fetch).toHaveBeenCalledWith(
+    expect(globalThis.fetch).toHaveBeenCalledWith(
       expect.stringContaining('/health'),
       expect.objectContaining({
         headers: expect.objectContaining({ 'Content-Type': 'application/json' }),
@@ -57,7 +57,7 @@ describe('apiClient - request function', () => {
 
   it('attaches Authorization header when requiresAuth is true and token exists', async () => {
     tokenStorage.set('my-secret-jwt');
-    global.fetch = vi.fn().mockResolvedValue({
+    globalThis.fetch = vi.fn().mockResolvedValue({
       ok: true,
       status: 200,
       json: async () => ({ id: 'user-1' }),
@@ -65,7 +65,7 @@ describe('apiClient - request function', () => {
 
     await request('/auth/me', { requiresAuth: true });
 
-    expect(global.fetch).toHaveBeenCalledWith(
+    expect(globalThis.fetch).toHaveBeenCalledWith(
       expect.stringContaining('/auth/me'),
       expect.objectContaining({
         headers: expect.objectContaining({
@@ -76,7 +76,7 @@ describe('apiClient - request function', () => {
   });
 
   it('throws ApiError on HTTP 400 with detail message', async () => {
-    global.fetch = vi.fn().mockResolvedValue({
+    globalThis.fetch = vi.fn().mockResolvedValue({
       ok: false,
       status: 400,
       statusText: 'Bad Request',
@@ -87,7 +87,7 @@ describe('apiClient - request function', () => {
   });
 
   it('handles 204 No Content gracefully', async () => {
-    global.fetch = vi.fn().mockResolvedValue({
+    globalThis.fetch = vi.fn().mockResolvedValue({
       ok: true,
       status: 204,
     } as Response);

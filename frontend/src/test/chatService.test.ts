@@ -1,4 +1,4 @@
-﻿/**
+/**
  * chatService.test.ts
  *
  * Unit tests for chatService: inquiry dispatch, materials normalization,
@@ -9,10 +9,10 @@
 import { chatService } from '../services/chatService';
 
 describe('chatService', () => {
-  const originalFetch = global.fetch;
+  const originalFetch = globalThis.fetch;
 
   afterEach(() => {
-    global.fetch = originalFetch;
+    globalThis.fetch = originalFetch;
   });
 
   it('dispatches inquiry to backend and normalizes materials objects into strings', async () => {
@@ -35,7 +35,7 @@ describe('chatService', () => {
       follow_ups: ['How to assess?'],
     };
 
-    global.fetch = vi.fn().mockResolvedValue({
+    globalThis.fetch = vi.fn().mockResolvedValue({
       ok: true,
       status: 200,
       json: async () => mockBackendResp,
@@ -52,7 +52,7 @@ describe('chatService', () => {
   });
 
   it('falls back gracefully to local CBC intelligence if backend fails or is offline', async () => {
-    global.fetch = vi.fn().mockRejectedValue(new Error('Failed to fetch'));
+    globalThis.fetch = vi.fn().mockRejectedValue(new Error('Failed to fetch'));
 
     const result = await chatService.sendInquiry('How to improvise science craft materials?');
     expect(result).toBeDefined();
@@ -62,7 +62,7 @@ describe('chatService', () => {
   });
 
   it('creates conversation session', async () => {
-    global.fetch = vi.fn().mockResolvedValue({
+    globalThis.fetch = vi.fn().mockResolvedValue({
       ok: true,
       status: 201,
       json: async () => ({ id: 'conv-999', title: 'Test Session' }),

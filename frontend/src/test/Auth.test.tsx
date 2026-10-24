@@ -86,20 +86,20 @@ describe('Auth – 3D Futuristic Neural Visual', () => {
 });
 
 describe('Auth – Backend API integration & error handling', () => {
-  const originalFetch = global.fetch;
+  const originalFetch = globalThis.fetch;
 
   beforeEach(() => {
     tokenStorage.remove();
   });
 
   afterEach(() => {
-    global.fetch = originalFetch;
+    globalThis.fetch = originalFetch;
     tokenStorage.remove();
   });
 
   it('submits login and enters chat on successful backend authentication', async () => {
     const onEnterChatMock = vi.fn();
-    global.fetch = vi.fn().mockResolvedValue({
+    globalThis.fetch = vi.fn().mockResolvedValue({
       ok: true,
       status: 200,
       json: async () => ({
@@ -126,7 +126,7 @@ describe('Auth – Backend API integration & error handling', () => {
   });
 
   it('displays error banner when backend returns authentication error', async () => {
-    global.fetch = vi.fn().mockResolvedValue({
+    globalThis.fetch = vi.fn().mockResolvedValue({
       ok: false,
       status: 401,
       json: async () => ({ detail: 'Invalid email or password.' }),

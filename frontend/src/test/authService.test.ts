@@ -1,4 +1,4 @@
-﻿/**
+/**
  * authService.test.ts
  *
  * Unit tests for authService: registration, login, profile retrieval,
@@ -10,14 +10,14 @@ import { authService } from '../services/authService';
 import { tokenStorage } from '../services/apiClient';
 
 describe('authService', () => {
-  const originalFetch = global.fetch;
+  const originalFetch = globalThis.fetch;
 
   beforeEach(() => {
     tokenStorage.remove();
   });
 
   afterEach(() => {
-    global.fetch = originalFetch;
+    globalThis.fetch = originalFetch;
     tokenStorage.remove();
   });
 
@@ -31,7 +31,7 @@ describe('authService', () => {
       created_at: '2026-10-21T00:00:00Z',
     };
 
-    global.fetch = vi.fn().mockResolvedValue({
+    globalThis.fetch = vi.fn().mockResolvedValue({
       ok: true,
       status: 201,
       json: async () => mockUser,
@@ -46,7 +46,7 @@ describe('authService', () => {
 
     expect(user.id).toBe('usr-1');
     expect(user.email).toBe('mwalimu@school.ac.ke');
-    expect(global.fetch).toHaveBeenCalledWith(
+    expect(globalThis.fetch).toHaveBeenCalledWith(
       expect.stringContaining('/auth/register'),
       expect.objectContaining({ method: 'POST' })
     );
@@ -66,7 +66,7 @@ describe('authService', () => {
       },
     };
 
-    global.fetch = vi.fn().mockResolvedValue({
+    globalThis.fetch = vi.fn().mockResolvedValue({
       ok: true,
       status: 200,
       json: async () => mockLoginResp,
@@ -94,7 +94,7 @@ describe('authService', () => {
       created_at: '2026-10-21T00:00:00Z',
     };
 
-    global.fetch = vi.fn().mockResolvedValue({
+    globalThis.fetch = vi.fn().mockResolvedValue({
       ok: true,
       status: 200,
       json: async () => mockProfile,
