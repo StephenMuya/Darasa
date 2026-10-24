@@ -77,9 +77,9 @@ export default function HeroChatPanel() {
   return (
     <div
       id="hero-chat-container"
-      className="order-2 lg:order-2 w-full lg:w-[42%] xl:w-[40%] 2xl:w-[38%] flex justify-center lg:justify-end items-center shrink-0"
+      className="order-2 lg:order-2 w-full lg:w-[52%] xl:w-[52%] 2xl:w-[53%] flex justify-center lg:justify-end items-center shrink-0"
     >
-      <div className="w-full max-w-full sm:max-w-xl lg:max-w-2xl xl:max-w-[700px] 2xl:max-w-[740px] app-window-floating">
+      <div className="w-full max-w-full sm:max-w-xl lg:max-w-2xl xl:max-w-[820px] 2xl:max-w-[880px] app-window-floating">
 
         {/* App Window Frame with glassmorphism */}
         <div className="w-full rounded-xl sm:rounded-2xl glass-chat-window overflow-hidden">
@@ -101,7 +101,7 @@ export default function HeroChatPanel() {
           </div>
 
           {/* Body: Sidebar + Chat Canvas */}
-          <div className="flex flex-row min-h-[350px] sm:min-h-[380px] lg:min-h-[400px] xl:min-h-[420px]">
+          <div className="flex flex-row min-h-[400px] sm:min-h-[440px] lg:min-h-[460px] xl:min-h-[490px]">
 
             {/* Adjusted Left Sidebar with clear glass backing */}
             <aside className="w-52 sm:w-56 lg:w-60 shrink-0 hidden md:flex flex-col justify-between border-r border-white/40 p-3.5 sm:p-4 text-left bg-white/15 backdrop-blur-md">
@@ -198,12 +198,12 @@ export default function HeroChatPanel() {
               {/* Greeting + Orb with gentle fading effect */}
               <div className="py-2 sm:py-2.5 lg:py-3.5 flex flex-col items-center justify-center text-center space-y-1.5 sm:space-y-2">
                 <div className="relative flex items-center justify-center mb-0.5">
-                  <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 rounded-full luminous-3d-orb" />
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 rounded-full luminous-3d-orb" />
                   <div className="absolute inset-0 rounded-full blur-md opacity-40 pointer-events-none animate-fade-in-out" style={{ background: 'radial-gradient(circle, #93C5FD 0%, #A7F3D0 100%)' }} />
                 </div>
                 <div className="space-y-0.5">
-                  <h2 className="text-lg sm:text-xl lg:text-[1.65rem] font-bold text-slate-900 tracking-tight font-['Outfit']">Good Morning, Judha</h2>
-                  <p className="text-base sm:text-lg lg:text-[1.4rem] font-bold tracking-tight text-slate-800 font-['Outfit']">
+                  <h2 className="text-xl sm:text-2xl lg:text-[1.85rem] font-bold text-slate-900 tracking-tight font-['Outfit']">Good Morning, Judha</h2>
+                  <p className="text-lg sm:text-xl lg:text-[1.55rem] font-bold tracking-tight text-slate-800 font-['Outfit']">
                     How Can I{' '}
                     <span style={{ color: 'var(--soma-accent)' }} className="underline decoration-emerald-500/30 underline-offset-4">
                       Assist You Today?
@@ -213,7 +213,7 @@ export default function HeroChatPanel() {
               </div>
 
               {/* Prompt Card with clear glassmorphism */}
-              <div className="w-full rounded-xl sm:rounded-2xl glass-prompt-card p-3 sm:p-3.5 lg:p-4 space-y-2.5 sm:space-y-3 transition-all focus-within:border-emerald-600/70 focus-within:ring-2 focus-within:ring-emerald-500/15">
+              <div className="w-full rounded-xl sm:rounded-2xl glass-prompt-card p-4 sm:p-4.5 lg:p-5 space-y-3 sm:space-y-3.5 transition-all focus-within:border-emerald-600/70 focus-within:ring-2 focus-within:ring-emerald-500/15">
                 <div className="flex items-start gap-3">
                   <span className="text-base sm:text-lg shrink-0 mt-0.5 font-bold animate-fade-in-out" style={{ color: 'var(--soma-accent)' }} aria-hidden="true">✦</span>
                   <input
