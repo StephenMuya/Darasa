@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 /**
  * Auth.tsx
@@ -13,6 +13,8 @@ import React, { useState } from 'react';
 import AuthHeader from './auth/AuthHeader';
 import AuthFormPanel from './auth/AuthFormPanel';
 import AuthFuturisticVisual from './auth/AuthFuturisticVisual';
+import { authService } from '../services/authService';
+import { ApiError } from '../services/apiClient';
 import { SOMA_THEME_VARS, SOMA_GRADIENTS } from '../theme/tokens';
 import type { AuthProps, UserRole } from './auth/authTypes';
 import './hero/heroAnimations.css';
@@ -30,13 +32,44 @@ export default function Auth({
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (onEnterChat) {
-      onEnterChat(initialPrompt);
-    } else {
+    setErrorMessage(null);
+    setIsSubmitting(true);
+
+    try {
+      if (mode === 'signup') {
+        const backendRole = role === 'student' ? 'learner' : role;
+        await authService.register({
+          email,
+          full_name: fullName,
+          password,
+          role: backendRole,
+        });
+
+        // Automatically log in the user upon successful registration
+        await authService.login({ email, password });
+      } else {
+        await authService.login({ email, password });
+      }
+
       setSubmitted(true);
+      if (onEnterChat) {
+        onEnterChat(initialPrompt);
+      }
+    } catch (err: unknown) {
+      if (err instanceof ApiError) {
+        setErrorMessage(err.detail);
+      } else if (err instanceof Error) {
+        setErrorMessage(err.message);
+      } else {
+        setErrorMessage('Authentication request failed. Please check your network.');
+      }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -49,7 +82,7 @@ export default function Auth({
         ...SOMA_THEME_VARS,
       }}
     >
-      {/* ── Grounded, Static Ambient Background Radial Lighting (No Moving / Drifting Animation) ── */}
+      {/* Grounded, Static Ambient Background Radial Lighting */}
       <div
         aria-hidden="true"
         className="absolute top-10 right-0 w-[420px] sm:w-[620px] h-[420px] sm:h-[620px] rounded-full pointer-events-none select-none z-0 opacity-45"
@@ -69,10 +102,10 @@ export default function Auth({
         }}
       />
 
-      {/* ── Top Header Navigation Bar ── */}
+      {/* Top Header Navigation Bar */}
       <AuthHeader onBack={onBack} />
 
-      {/* ── Unified Single Master Container (Both Left Form & Right 3D Visual) ── */}
+      {/* Unified Single Master Container (Both Left Form & Right 3D Visual) */}
       <main className="relative z-10 flex-1 w-full max-w-5xl xl:max-w-6xl mx-auto px-4 sm:px-6 md:px-8 py-6 sm:py-8 lg:py-10 flex items-center justify-center">
         <div
           id="unified-auth-card"
@@ -86,7 +119,10 @@ export default function Auth({
           <div className="lg:col-span-5 p-6 sm:p-7 lg:p-8 flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-[#1F7A4D]/15 bg-white/50 backdrop-blur-md">
             <AuthFormPanel
               mode={mode}
-              setMode={setMode}
+              setMode={(m) => {
+                setMode(m);
+                setErrorMessage(null);
+              }}
               role={role}
               setRole={setRole}
               showPassword={showPassword}
@@ -103,6 +139,8 @@ export default function Auth({
               onEnterChat={onEnterChat}
               onBack={onBack}
               initialPrompt={initialPrompt}
+              isSubmitting={isSubmitting}
+              errorMessage={errorMessage}
             />
           </div>
 
@@ -116,7 +154,7 @@ export default function Auth({
         </div>
       </main>
 
-      {/* ── Footer Attribution Bar ── */}
+      {/* Footer Attribution Bar */}
       <footer className="relative z-10 w-full py-3 px-4 sm:px-8 border-t border-[#1F7A4D]/15 bg-white/20 backdrop-blur-xs flex items-center justify-between text-xs text-slate-600">
         <span>© 2026 Darasa (SomaAI). All rights reserved.</span>
         <span>🇰🇪 Official Kenya CBC Intelligence Platform</span>

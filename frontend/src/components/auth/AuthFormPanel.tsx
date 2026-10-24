@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React from 'react';
 import {
@@ -10,6 +10,7 @@ import {
   EyeOff,
   Sparkles,
   CheckCircle2,
+  AlertCircle,
 } from 'lucide-react';
 import { ROLE_OPTIONS, type UserRole } from './authTypes';
 
@@ -32,6 +33,8 @@ interface AuthFormPanelProps {
   onEnterChat?: (prompt?: string) => void;
   onBack: () => void;
   initialPrompt?: string;
+  isSubmitting?: boolean;
+  errorMessage?: string | null;
 }
 
 /**
@@ -42,7 +45,7 @@ interface AuthFormPanelProps {
  * 1. Mode switcher (Create Account / Log In)
  * 2. Role picker
  * 3. Primary Email & Password form fields (FIRST)
- * 4. Submit button
+ * 4. Submit button with backend integration & loading states
  * 5. Secondary auth alternatives (Google, NEMIS, Guest access) (SECOND)
  */
 export default function AuthFormPanel({
@@ -64,6 +67,8 @@ export default function AuthFormPanel({
   onEnterChat,
   onBack,
   initialPrompt,
+  isSubmitting = false,
+  errorMessage = null,
 }: AuthFormPanelProps) {
   return (
     <div className="w-full max-w-sm sm:max-w-md mx-auto text-left">
@@ -135,7 +140,18 @@ export default function AuthFormPanel({
         </div>
       </div>
 
-      {/* ── 1. PRIMARY LOGIN / SIGNUP FIELDS COME FIRST ── */}
+      {/* Error Message Banner */}
+      {errorMessage && (
+        <div
+          role="alert"
+          className="p-3 mb-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2 animate-fade-in-out"
+        >
+          <AlertCircle className="w-4 h-4 shrink-0 text-red-500" />
+          <span>{errorMessage}</span>
+        </div>
+      )}
+
+      {/* 1. PRIMARY LOGIN / SIGNUP FIELDS COME FIRST */}
       {submitted ? (
         <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-center space-y-2 animate-fade-in-out my-3">
           <CheckCircle2 className="w-7 h-7 text-[#1F7A4D] mx-auto" />
@@ -222,16 +238,26 @@ export default function AuthFormPanel({
           {/* Submit Action Button */}
           <button
             type="submit"
+            disabled={isSubmitting}
             aria-label={mode === 'signup' ? 'Create Free Account' : 'Sign in to Darasa'}
-            className="w-full py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold text-white bg-[#1F7A4D] hover:bg-[#18633E] active:translate-y-0 transition-all duration-200 shadow-sm hover:shadow-md flex items-center justify-center gap-2 mt-1 cursor-pointer"
+            className="w-full py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold text-white bg-[#1F7A4D] hover:bg-[#18633E] disabled:opacity-60 disabled:cursor-not-allowed active:translate-y-0 transition-all duration-200 shadow-sm hover:shadow-md flex items-center justify-center gap-2 mt-1 cursor-pointer"
           >
-            <span>{mode === 'signup' ? 'Create Free Account' : 'Sign In'}</span>
-            <ArrowRight className="w-4 h-4" />
+            {isSubmitting ? (
+              <span className="flex items-center gap-2">
+                <span className="inline-block w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                <span>{mode === 'signup' ? 'Creating Account...' : 'Signing in...'}</span>
+              </span>
+            ) : (
+              <>
+                <span>{mode === 'signup' ? 'Create Free Account' : 'Sign In'}</span>
+                <ArrowRight className="w-4 h-4" />
+              </>
+            )}
           </button>
         </form>
       )}
 
-      {/* ── 2. SECONDARY AUTH OPTIONS COME SECOND ── */}
+      {/* 2. SECONDARY AUTH OPTIONS COME SECOND */}
       <div className="relative flex items-center justify-center my-4">
         <div className="w-full border-t border-[#1F7A4D]/15" />
         <span className="absolute bg-[#F3F9F5] px-2.5 text-[10px] font-medium text-slate-500 uppercase tracking-wider">
@@ -243,7 +269,7 @@ export default function AuthFormPanel({
         {/* Google OAuth Button */}
         <button
           type="button"
-          onClick={() => setSubmitted(true)}
+          onClick={() => (onEnterChat ? onEnterChat(initialPrompt) : setSubmitted(true))}
           className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-800 text-xs font-semibold shadow-2xs hover:shadow-xs transition-all cursor-pointer"
         >
           <svg className="w-3.5 h-3.5" viewBox="0 0 24 24">
@@ -270,7 +296,7 @@ export default function AuthFormPanel({
         {/* NEMIS / School Portal Button */}
         <button
           type="button"
-          onClick={() => setSubmitted(true)}
+          onClick={() => (onEnterChat ? onEnterChat(initialPrompt) : setSubmitted(true))}
           className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-white/70 hover:bg-white border border-[#1F7A4D]/25 text-slate-800 text-xs font-semibold transition-all cursor-pointer"
         >
           <span className="w-1.5 h-1.5 rounded-full bg-[#1F7A4D]" />

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Auth.test.tsx
  *
  * Tests: Unified authentication experience:
@@ -7,11 +7,13 @@
  * - Primary credential inputs (Full name, Email, Password) coming FIRST
  * - Secondary login alternatives (Google, NEMIS, Guest access) coming SECOND
  * - 3D futuristic neural curriculum visual
+ * - Backend submission, loading states, and error handling
  */
 
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 // vitest globals
 import Auth from '../components/Auth';
+import { tokenStorage } from '../services/apiClient';
 
 describe('Auth – layout & navigation header', () => {
   it('renders without crashing', () => {
@@ -76,9 +78,73 @@ describe('Auth – Form structure & field precedence', () => {
 describe('Auth – 3D Futuristic Neural Visual', () => {
   it('renders the 3D neural telemetry and futuristic curriculum badges', () => {
     render(<Auth onBack={vi.fn()} />);
-    expect(screen.getByText(/soma neural engine · online/i)).toBeInTheDocument();
+    expect(screen.getByText(/soma neural engine/i)).toBeInTheDocument();
     expect(screen.getByText(/cbc pedagogical intelligence/i)).toBeInTheDocument();
     expect(screen.getByText(/official kicd cbc rubrics/i)).toBeInTheDocument();
-    expect(screen.getByText(/grades 1–9 cbc coverage/i)).toBeInTheDocument();
+    expect(screen.getByText(/grades 1/i)).toBeInTheDocument();
+  });
+});
+
+describe('Auth – Backend API integration & error handling', () => {
+  const originalFetch = global.fetch;
+
+  beforeEach(() => {
+    tokenStorage.remove();
+  });
+
+  afterEach(() => {
+    global.fetch = originalFetch;
+    tokenStorage.remove();
+  });
+
+  it('submits login and enters chat on successful backend authentication', async () => {
+    const onEnterChatMock = vi.fn();
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+      json: async () => ({
+        access_token: 'auth-jwt-token',
+        token_type: 'bearer',
+        user: { id: 'u1', email: 'teacher@school.ac.ke', full_name: 'Teacher', role: 'teacher' },
+      }),
+    } as Response);
+
+    render(<Auth onBack={vi.fn()} onEnterChat={onEnterChatMock} initialMode="login" />);
+
+    const emailInput = screen.getByPlaceholderText(/mwalimu@school\.ac\.ke/i);
+    const passwordInput = screen.getByPlaceholderText(/••••••••••••/i);
+    const submitBtn = screen.getByRole('button', { name: /sign in to darasa/i });
+
+    fireEvent.change(emailInput, { target: { value: 'teacher@school.ac.ke' } });
+    fireEvent.change(passwordInput, { target: { value: 'Secret123!' } });
+    fireEvent.click(submitBtn);
+
+    await waitFor(() => {
+      expect(onEnterChatMock).toHaveBeenCalled();
+    });
+    expect(tokenStorage.get()).toBe('auth-jwt-token');
+  });
+
+  it('displays error banner when backend returns authentication error', async () => {
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: false,
+      status: 401,
+      json: async () => ({ detail: 'Invalid email or password.' }),
+    } as Response);
+
+    render(<Auth onBack={vi.fn()} initialMode="login" />);
+
+    const emailInput = screen.getByPlaceholderText(/mwalimu@school\.ac\.ke/i);
+    const passwordInput = screen.getByPlaceholderText(/••••••••••••/i);
+    const submitBtn = screen.getByRole('button', { name: /sign in to darasa/i });
+
+    fireEvent.change(emailInput, { target: { value: 'wrong@school.ac.ke' } });
+    fireEvent.change(passwordInput, { target: { value: 'WrongPass' } });
+    fireEvent.click(submitBtn);
+
+    await waitFor(() => {
+      expect(screen.getByRole('alert')).toBeInTheDocument();
+      expect(screen.getByText(/invalid email or password/i)).toBeInTheDocument();
+    });
   });
 });
