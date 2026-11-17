@@ -11,9 +11,28 @@ interface HeroNavbarProps {
   /** Controls whether the mobile drawer is open */
   isOpen: boolean;
   onToggle: () => void;
+  /** Callback to trigger auth view */
+  onOpenAuth?: (mode?: 'login' | 'signup') => void;
 }
 
-export default function HeroNavbar({ isOpen, onToggle }: HeroNavbarProps) {
+export default function HeroNavbar({ isOpen, onToggle, onOpenAuth }: HeroNavbarProps) {
+  const handleOpenLogin = (e?: React.MouseEvent) => {
+    if (onOpenAuth) {
+      e?.preventDefault();
+      onOpenAuth('login');
+    } else {
+      window.location.hash = '#login';
+    }
+  };
+
+  const handleOpenSignup = () => {
+    if (onOpenAuth) {
+      onOpenAuth('signup');
+    } else {
+      window.location.hash = '#auth';
+    }
+  };
+
   return (
     <header className="sticky top-0 z-40 w-full bg-transparent transition-colors">
       <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16 py-2 sm:py-2.5 lg:py-3.5 flex items-center justify-between">
@@ -64,16 +83,16 @@ export default function HeroNavbar({ isOpen, onToggle }: HeroNavbarProps) {
         <div className="hidden sm:flex items-center gap-3">
           <a
             href="#login"
-            className="px-4 py-2 text-sm font-semibold text-slate-700 hover:text-slate-950 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1F7A4D] rounded-full"
+            onClick={handleOpenLogin}
+            className="px-4 py-2 text-sm font-semibold text-slate-700 hover:text-slate-950 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1F7A4D] rounded-full cursor-pointer"
           >
             Log in
           </a>
           <button
             type="button"
-            className="glass-btn-accent inline-flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold text-[#0d4a25] hover:-translate-y-0.5 active:translate-y-0 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1F7A4D]"
-            style={{ backgroundColor: 'var(--soma-accent)' }}
-            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'var(--soma-accent-hover)')}
-            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'var(--soma-accent)')}
+            onClick={handleOpenSignup}
+            className="glass-btn-accent inline-flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold text-[#0d4a25] hover:-translate-y-0.5 active:translate-y-0 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1F7A4D] cursor-pointer"
+            
           >
             <span>Start Free</span>
             <svg className="w-3.5 h-3.5 text-[#0d4a25]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -126,12 +145,23 @@ export default function HeroNavbar({ isOpen, onToggle }: HeroNavbarProps) {
           <div className="pt-2 border-t border-[#1F7A4D]/15 flex flex-col gap-2">
             <button
               type="button"
+              onClick={() => {
+                onToggle();
+                handleOpenSignup();
+              }}
               className="glass-btn-accent w-full py-2.5 rounded-full text-sm font-bold text-[#0d4a25]"
-              style={{ backgroundColor: 'var(--soma-accent)' }}
+              
             >
               Start Free
             </button>
-            <a href="#login" className="text-center py-2 text-sm font-semibold text-slate-700">
+            <a
+              href="#login"
+              onClick={(e) => {
+                onToggle();
+                handleOpenLogin(e);
+              }}
+              className="text-center py-2 text-sm font-semibold text-slate-700"
+            >
               Log in
             </a>
           </div>

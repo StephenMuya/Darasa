@@ -5,3 +5,8 @@
  *   with DOM-aware matchers (toBeInTheDocument, toHaveTextContent, etc.)
  */
 import '@testing-library/jest-dom';
+
+// JSDOM does not implement scrollIntoView by default
+if (typeof window !== 'undefined') {
+  window.HTMLElement.prototype.scrollIntoView = function () {};
+}

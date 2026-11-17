@@ -5,7 +5,7 @@
  * All elements are aria-hidden so we query by text content directly.
  */
 import { render } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+// vitest globals
 import HeroBackground from '../components/hero/HeroBackground';
 
 describe('HeroBackground – watermark words', () => {

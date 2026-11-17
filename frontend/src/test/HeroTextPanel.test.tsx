@@ -3,8 +3,8 @@
  *
  * Tests: headline content, sub-heading, primary CTA button, and secondary link.
  */
-import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+import { render, screen } from '@testing-library/react';
+// vitest globals
 import HeroTextPanel from '../components/hero/HeroTextPanel';
 
 describe('HeroTextPanel – headline', () => {
@@ -65,14 +65,9 @@ describe('HeroTextPanel – CTAs', () => {
     expect(screen.getByText(/covering cbc curriculum/i)).toBeInTheDocument();
   });
 
-  it('primary button background changes on hover', () => {
+  it('primary button has glassmorphism styling', () => {
     render(<HeroTextPanel />);
     const btn = screen.getByRole('button', { name: /start chatting/i });
-    // Initial state
-    expect(btn.style.backgroundColor).toBe('var(--soma-accent)');
-    fireEvent.mouseEnter(btn);
-    expect(btn.style.backgroundColor).toBe('var(--soma-accent-hover)');
-    fireEvent.mouseLeave(btn);
-    expect(btn.style.backgroundColor).toBe('var(--soma-accent)');
+    expect(btn.className).toContain('glass-btn-accent');
   });
 });

@@ -16,31 +16,33 @@
  */
 
 import { useState } from 'react';
-
 import './hero/heroAnimations.css';
-import HeroNavbar     from './hero/HeroNavbar';
-import HeroBackground from './hero/HeroBackground';
-import HeroTextPanel  from './hero/HeroTextPanel';
-import HeroChatPanel  from './hero/HeroChatPanel';
-import HeroLineArt    from './hero/HeroLineArt';
+import {
+  HeroNavbar,
+  HeroBackground,
+  HeroTextPanel,
+  HeroChatPanel,
+  HeroLineArt,
+} from './hero/index';
+import { SOMA_THEME_VARS } from '../theme/tokens';
 
-export default function SomaHero() {
+interface SomaHeroProps {
+  onOpenAuth?: (mode?: 'login' | 'signup') => void;
+}
+
+export default function SomaHero({ onOpenAuth }: SomaHeroProps = {}) {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   return (
     <div
       className="relative h-screen max-h-screen w-full overflow-hidden flex flex-col justify-between bg-gradient-to-br from-[#F5FAF7] via-[#EAF3EE] to-[#DCEDE2] text-slate-900 transition-colors duration-300"
-      style={{
-        ['--soma-accent'       as any]: '#1F7A4D',
-        ['--soma-accent-hover' as any]: '#18633E',
-        ['--soma-amber-glow'   as any]: '#FCE9C8',
-        ['--soma-amber'        as any]: '#EE9B2E',
-      }}
+      style={SOMA_THEME_VARS}
     >
       {/* 1. Navigation bar */}
       <HeroNavbar
         isOpen={mobileNavOpen}
         onToggle={() => setMobileNavOpen((prev) => !prev)}
+        onOpenAuth={onOpenAuth}
       />
 
       {/* 2. Decorative background (watermark words + ambient orbs) */}
@@ -49,7 +51,7 @@ export default function SomaHero() {
       {/* 3. Main content: headline ↔ chat panel side by side */}
       <main className="relative z-10 flex-1 min-h-0 flex flex-col justify-center w-full px-4 sm:px-8 lg:px-12 xl:px-16 py-1 sm:py-2">
         <div className="w-full flex flex-col lg:flex-row items-center justify-between gap-6 lg:gap-8 xl:gap-12">
-          <HeroTextPanel />
+          <HeroTextPanel onOpenAuth={onOpenAuth} />
           <HeroChatPanel />
         </div>
       </main>

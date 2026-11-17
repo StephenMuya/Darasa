@@ -6,7 +6,7 @@
  * h2 heading has the 3 lines centered in the amber color (#EE9B2E).
  */
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+// vitest globals
 import ProblemStatement from '../components/ProblemStatement';
 
 describe('ProblemStatement – section layout & background', () => {

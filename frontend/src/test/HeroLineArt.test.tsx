@@ -5,7 +5,7 @@
  * the decorative SVG motif exists, and the baseline gradient renders.
  */
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+// vitest globals
 import HeroLineArt from '../components/hero/HeroLineArt';
 
 describe('HeroLineArt – scene images', () => {

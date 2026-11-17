@@ -4,7 +4,7 @@
  * Tests: branding, desktop nav links, auth CTAs, and mobile drawer toggle.
  */
 import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
+// vitest globals
 import HeroNavbar from '../components/hero/HeroNavbar';
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
