@@ -39,3 +39,16 @@ async def get_current_user_payload(
     if payload is None or "sub" not in payload:
         raise_http_unauthorized("Invalid or expired authentication token")
     return payload
+async def get_optional_user_payload(
+    token: Optional[str] = Depends(oauth2_scheme),
+) -> Optional[dict]:
+    """
+    Dependency: Extracts JWT claims if Authorization header is provided, or returns None.
+    Allows guest access while still identifying logged-in teachers/learners.
+    """
+    if not token:
+        return None
+    try:
+        return decode_access_token(token)
+    except Exception:
+        return None
