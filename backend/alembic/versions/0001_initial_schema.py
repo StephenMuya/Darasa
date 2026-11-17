@@ -1,4 +1,4 @@
-﻿"""Initial schema for users, conversations, and messages (plain PostgreSQL)
+"""Initial schema for users, conversations, and messages (plain PostgreSQL)
 
 Revision ID: 0001_initial_schema
 Revises:
@@ -38,7 +38,7 @@ def upgrade() -> None:
     op.create_table(
         'conversations',
         sa.Column('id', sa.String(length=36), nullable=False),
-        sa.Column('user_id', sa.String(length=36), nullable=False),
+        sa.Column('user_id', sa.String(length=36), nullable=True),
         sa.Column('title', sa.String(length=255), server_default='New CBC Planning Conversation', nullable=False),
         sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False),
         sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False),
