@@ -1,0 +1,171 @@
+{
+  "title": "KICD GRADE 5 AGRICULTURE AND NUTRITION CURRICULUM DESIGN",
+  "grade": "Grade 5",
+  "learning_area": "Agriculture and Nutrition",
+  "education_level": "Upper Primary",
+  "kicd_edition_year": 2024,
+  "metadata": {
+    "s3_raw_uri": "s3://darasa-curriculum-blueprints-store/curriculum-raw/upper-primary/GRADE-5-AGRICULTURE-NUTRITION.pdf",
+    "s3_processed_uri": "s3://darasa-curriculum-blueprints-store/curriculum-processed/upper-primary/GRADE-5-AGRICULTURE-NUTRITION.json",
+    "parser": "gemini-2.0-flash-multimodal",
+    "strand_count": 3,
+    "sub_strand_count": 4
+  },
+  "strands": [
+    {
+      "strand_name": "1.0 CONSERVATION OF RESOURCES",
+      "sub_strands": [
+        {
+          "sub_strand_name": "1.1 Soil Conservation",
+          "suggested_lessons": 12,
+          "specific_learning_outcomes": [
+            "Identify signs of soil erosion in the school and local agricultural environment.",
+            "Demonstrate methods of soil recovery from eroded sites using organic mulch and contours.",
+            "Appreciate the importance of conserving soil for household and community food security."
+          ],
+          "suggested_learning_experiences": [
+            "Learners walk around the school compound to observe and record rill and splash erosion signs.",
+            "Learners collect grass, dry leaves, and twigs to construct organic mulch over seedbeds.",
+            "Learners work collaboratively in small groups to construct miniature diversion channels and cover crops."
+          ],
+          "key_inquiry_questions": [
+            "How does bare soil get eroded by rainwater?",
+            "How do dry leaves and organic mulch help retain soil moisture and fertility?"
+          ],
+          "core_competencies": [
+            "Critical thinking and problem solving (analyzing erosion patterns)",
+            "Collaboration and teamwork (constructing mulch barriers)",
+            "Digital literacy (photographing erosion recovery stages)"
+          ],
+          "values": [
+            "Responsibility (caring for school soil and vegetation)",
+            "Unity (collaborative group farming projects)"
+          ],
+          "pertinent_contemporary_issues": [
+            "Environmental sustainability",
+            "Disaster risk reduction (preventing topsoil depletion)"
+          ],
+          "assessment_rubric": {
+            "exceeding": "Accurately identifies subtle erosion indicators, constructs flawless organic mulching, and innovatively mentors peers.",
+            "meeting": "Correctly identifies soil erosion signs and constructs effective organic mulch following instructions.",
+            "approaching": "Identifies common erosion signs with guidance and partially constructs mulch with supervision.",
+            "below": "Struggles to identify erosion signs and requires continuous direct intervention to place mulch."
+          }
+        },
+        {
+          "sub_strand_name": "1.2 Water Harvesting and Storage",
+          "suggested_lessons": 10,
+          "specific_learning_outcomes": [
+            "Explain simple rooftop rainwater harvesting techniques suitable for school and home gardens.",
+            "Construct simple water storage containers using cleaned recycled local plastic bottles and drums.",
+            "Advocate for prudent water conservation in agricultural production."
+          ],
+          "suggested_learning_experiences": [
+            "Learners inspect roof gutters and downspouts to observe roof catchment dynamics.",
+            "Learners create simple drip irrigation prototypes using punctured 2-litre plastic bottles placed beside plant roots.",
+            "Learners discuss water rationing schedules for the school kitchen garden."
+          ],
+          "key_inquiry_questions": [
+            "Why is rainwater harvesting critical during dry seasons in Kenya?",
+            "How can recycled plastic bottles be converted into efficient drip watering tools?"
+          ],
+          "core_competencies": [
+            "Creativity and imagination (repurposing containers)",
+            "Self-efficacy"
+          ],
+          "values": [
+            "Integrity",
+            "Social justice"
+          ],
+          "pertinent_contemporary_issues": [
+            "Climate change adaptation",
+            "Water hygiene"
+          ],
+          "assessment_rubric": {
+            "exceeding": "Independently designs and tests innovative bottle drip irrigation systems with calibrated flow.",
+            "meeting": "Constructs functional bottle drip irrigation systems and harvests rainwater proficiently.",
+            "approaching": "Assembles bottle drip system with occasional teacher assistance.",
+            "below": "Requires step-by-step assistance to puncture and position water containers."
+          }
+        }
+      ]
+    },
+    {
+      "strand_name": "2.0 FOOD PRODUCTION PROCESSES",
+      "sub_strands": [
+        {
+          "sub_strand_name": "2.1 Vegetable Crop Production",
+          "suggested_lessons": 14,
+          "specific_learning_outcomes": [
+            "Differentiate indigenous African leafy vegetables (e.g. Managu, Terere, Kunde) from exotic varieties.",
+            "Prepare nursery seedbeds using fine tilth soil and compost manure.",
+            "Transplant healthy seedlings with proper root ball protection and initial watering."
+          ],
+          "suggested_learning_experiences": [
+            "Learners visit local markets or gardens to sample indigenous vegetable leaves and seeds.",
+            "Learners prepare nursery beds, measure spacing, and incorporate well-rotted farmyard manure.",
+            "Learners transplant seedlings in late afternoon and apply shaded protective leafy covers."
+          ],
+          "key_inquiry_questions": [
+            "Why are indigenous African leafy vegetables highly nutritious and drought tolerant?",
+            "Why should vegetable transplanting be done in the late afternoon?"
+          ],
+          "core_competencies": [
+            "Communication skills",
+            "Learning to learn"
+          ],
+          "values": [
+            "Patriotism (valuing indigenous African food crops)",
+            "Respect"
+          ],
+          "pertinent_contemporary_issues": [
+            "Nutrition and healthy lifestyles",
+            "Poverty eradication"
+          ],
+          "assessment_rubric": {
+            "exceeding": "Masterfully prepares nursery beds, achieves 100% transplant survival rate, and educates peers on indigenous nutrition.",
+            "meeting": "Prepares nursery beds with fine tilth and transplants seedlings adhering to spacing standards.",
+            "approaching": "Prepares nursery beds with guidance; needs assistance in seedling root handling.",
+            "below": "Damages seedling roots during transplanting and requires continuous supervision."
+          }
+        },
+        {
+          "sub_strand_name": "2.2 Domestic Animal Rearing (Poultry & Small Stock)",
+          "suggested_lessons": 12,
+          "specific_learning_outcomes": [
+            "Identify common poultry breeds suitable for backyard rearing in Kenya.",
+            "Demonstrate routine feeding and watering practices using local crop residue and clean drinkers.",
+            "Recognize common signs of ill health and distress in domestic birds."
+          ],
+          "suggested_learning_experiences": [
+            "Learners observe local chicken breeds (Kienyeji, improved indigenous) in the community.",
+            "Learners formulate supplementary poultry feeds mixing crushed maize, greens, and clean oyster shells.",
+            "Learners clean and disinfect poultry feeding troughs using warm water and ash solution."
+          ],
+          "key_inquiry_questions": [
+            "How does proper poultry shelter protect birds from predators and weather extremes?",
+            "Why is clean water essential for daily egg production and poultry vigor?"
+          ],
+          "core_competencies": [
+            "Critical thinking",
+            "Self-efficacy"
+          ],
+          "values": [
+            "Responsibility",
+            "Peace"
+          ],
+          "pertinent_contemporary_issues": [
+            "Animal welfare and humane treatment",
+            "Food security"
+          ],
+          "assessment_rubric": {
+            "exceeding": "Exemplarily demonstrates feed preparation, identifies early disease symptoms, and leads bird hygiene tasks.",
+            "meeting": "Prepares standard poultry feed mixtures and cleans equipment effectively.",
+            "approaching": "Assists in feed preparation; needs guidance on feeder disinfection.",
+            "below": "Requires direct supervision to handle feed and identify sick birds."
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-from fastapi import HTTPException, status
+﻿from fastapi import HTTPException, status
 
 
 class DomainException(Exception):
@@ -35,6 +35,30 @@ class UnauthorizedException(DomainException):
 
 class ExternalServiceException(DomainException):
     """Raised when an external API or service fails."""
+
+    pass
+
+
+class StorageException(DomainException):
+    """Base exception for object storage operations."""
+
+    pass
+
+
+class StorageFileNotFoundException(StorageException):
+    """Raised when an S3 object key does not exist."""
+
+    pass
+
+
+class StorageConfigurationException(StorageException):
+    """Raised when S3 credentials or bucket configuration is invalid."""
+
+    pass
+
+
+class StorageUploadException(StorageException):
+    """Raised when file upload to S3 fails."""
 
     pass
 

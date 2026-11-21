@@ -24,7 +24,10 @@ class ConversationRepository:
         if load_messages:
             query = query.options(selectinload(Conversation.messages))
         result = await self._session.execute(query)
-        return result.scalars().first()
+        conv = result.scalars().first()
+        if conv is not None and load_messages:
+            await self._session.refresh(conv, ["messages"])
+        return conv
 
     async def create(self, conversation: Conversation) -> Conversation:
         """Persist a new conversation session."""

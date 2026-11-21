@@ -1,4 +1,4 @@
-from typing import Optional
+﻿from typing import Optional
 
 from fastapi import APIRouter, Depends, status
 from redis.asyncio import Redis
@@ -17,6 +17,9 @@ from app.schemas.chat import (
 )
 from app.services.cache_service import CacheService
 from app.services.chat_service import ChatService
+from app.services.curriculum_retrieval_service import CurriculumRetrievalService
+from app.services.embedding_service import EmbeddingService
+from app.services.rag_chat_service import RagChatService
 
 router = APIRouter()
 
@@ -37,7 +40,7 @@ async def get_optional_user_id(
     response_model=InquiryResponse,
     status_code=status.HTTP_200_OK,
     summary="Dispatch CBC Inquiry",
-    description="Submit a pedagogical query to Darasa AI and receive curriculum reasoning, zero-cost materials, and rubrics.",
+    description="Submit a pedagogical query to Darasa AI and receive KICD-grounded curriculum reasoning.",
 )
 async def submit_inquiry(
     data: InquiryRequest,
@@ -48,7 +51,16 @@ async def submit_inquiry(
     conv_repo = ConversationRepository(db)
     msg_repo = MessageRepository(db)
     cache = CacheService(redis)
-    service = ChatService(conv_repo, msg_repo, cache)
+
+    # Wire RAG pipeline: EmbeddingService → CurriculumRetrievalService → RagChatService
+    embedding_service = EmbeddingService(dimension=1536)
+    retrieval_service = CurriculumRetrievalService(
+        session=db,
+        embedding_service=embedding_service,
+    )
+    rag_service = RagChatService(retrieval_service=retrieval_service)
+
+    service = ChatService(conv_repo, msg_repo, cache, rag_chat_service=rag_service)
     return await service.process_inquiry(data, user_id=user_id)
 
 

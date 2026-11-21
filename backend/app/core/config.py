@@ -1,4 +1,4 @@
-from functools import lru_cache
+﻿from functools import lru_cache
 from typing import List
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -54,6 +54,12 @@ class Settings(BaseSettings):
     # External API Placeholders & Integrations
     # =========================================================================
 
+    # --- AWS S3 Blueprint Ingestion Storage ---
+    AWS_ACCESS_KEY_ID: str = "PLACEHOLDER_AWS_ACCESS_KEY_ID"
+    AWS_SECRET_ACCESS_KEY: str = "PLACEHOLDER_AWS_SECRET_ACCESS_KEY"
+    AWS_REGION: str = "af-south-1"
+    S3_BUCKET_NAME: str = "darasa-curriculum-blueprints-store"
+
     # --- LLM Providers ---
     OPENAI_API_KEY: str = "PLACEHOLDER_OPENAI_API_KEY"
     OPENAI_MODEL: str = "gpt-4o"
@@ -86,6 +92,15 @@ class Settings(BaseSettings):
     @property
     def is_production(self) -> bool:
         return self.ENVIRONMENT.lower() == "production"
+
+    @property
+    def has_valid_aws_credentials(self) -> bool:
+        return bool(
+            self.AWS_ACCESS_KEY_ID
+            and not self.AWS_ACCESS_KEY_ID.startswith("PLACEHOLDER")
+            and self.AWS_SECRET_ACCESS_KEY
+            and not self.AWS_SECRET_ACCESS_KEY.startswith("PLACEHOLDER")
+        )
 
     @property
     def has_valid_openai_key(self) -> bool:
